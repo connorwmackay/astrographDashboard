@@ -42,9 +42,11 @@ async function connectMongoDB() {
 
 // Include the Routers
 const homeRouter = require('./routes/home.js');
+const userRouter = require('./routes/user.js');
 
 // Use the routers at their respective url
 app.use('/', homeRouter);
+app.use('/user', userRouter);
 
 // Try to connect to the database, using the function defined above
 connectMongoDB()
