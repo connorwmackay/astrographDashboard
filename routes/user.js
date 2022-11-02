@@ -38,7 +38,12 @@ function isPasswordCorrect(passwordHash, passwordSalt, password) {
 
 // A route that allows a username and password to perform a login
 router.post('/login', async(req, res) => {
-    // TODO: Implement Login route
+    if (req.body.username != null || req.body.username != '' &&
+        req.body.password != null || req.body.password != '') {
+            // TODO: Perform login
+    } else {
+        // TODO: Send error message
+    }
 });
 
 // A route that allows the currently logged in user to logout
