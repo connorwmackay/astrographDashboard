@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("templates/head"); -%>
+    <title>Home - Dashboard</title>
+</head>
+<body>
+    <%- include('templates/navbar'); -%>
+    <img src="/images/rgu_logo.jpg" alt="RGU Logo" width="100">
+
+    <h1>Login</h1>
+    <p>Note: This is a temporary form I created to test my login functionality.</p>
+    
+    <form action="/login" method="POST">
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        <input type="submit" value="Login">
+    </form>
+
+    <%- include('templates/body_js'); -%>
+</body>
+</html>
