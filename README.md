@@ -4,6 +4,8 @@
 
 To install all the packages that the web app depends on, type **npm install** in the folder that contains *app.js*.
 
+You'll need NodeJS installed, you can find it [here](https://nodejs.org/en/download/)
+
 Additionally, this app uses MongoDB for its database. Therfore, you will need to install [MongoDB](https://www.mongodb.com/try/download/community), as well as [Mongo Compass](https://www.mongodb.com/try/download/compass) if it didn't install with MongoDB (which is a gui interface for managing MongoDB).
 
 ## Running the app
