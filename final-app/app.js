@@ -27,7 +27,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 // Connect to a database via MongoDB
-const dbUrl = 'mongodb://localhost:27017';
+const oldDbUrl = 'mongodb://localhost:27017';
+const dbUrl = 'mongodb+srv://astrograph:astrograph@astrograph.aerbgws.mongodb.net/test';
+
 const dbClient = new MongoClient(dbUrl);
 let db;
 
