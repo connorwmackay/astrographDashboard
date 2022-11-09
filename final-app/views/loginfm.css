@@ -1,0 +1,19 @@
+/* The Header */
+.header img {
+	
+   min-height: 10vh;
+   width: 100%;
+	padding: 0px;
+
+}/* CSS Document */
+
+.tri img {
+	
+min-height: 10vh;
+   width: 100%;
+	padding-top: 5px;
+	 position:absolute;
+     
+      z-index: 2;
+	
+}
