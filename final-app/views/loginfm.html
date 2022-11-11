@@ -2,52 +2,60 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>TESTING</title>
+	<title>RGU ACCELERATOR GRAPHICS</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="css/rgu.css">
-	
-	 <style>
-    .fishes
-    {
-      position:absolute;
-      top: 50px;
-      z-index: 1;
-	  padding-top: 100px;
-    }
-		 
-		 section { 
-  display: block;
-  padding-left: 650px;
-  padding-top: 100px;
+        <link rel="stylesheet" href="css/rgu.css">		
+
+	<style>
+body, html {
+  height: 100%;
+	width: 100%;
+  margin: 0;
 }
-		 
-  </style>
-	
+
+.bg {
+  /* The image used */
+  background-image: url("images/Untitled-5.gif");
+
+  /* Full height */
+  height: 100%; 
+	width: 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+}
+			   
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+input[type=submit] {
+  color: white;
+  cursor: pointer;
+}			   
+</style>
 </head>
 
 <body>
-<header>
 	
-	 <div class="header">
-            <img id="RGUHeader" src="final-app/public/images/rguheader.png" alt="RGU">
-        </div>
+ <div class="bg"></div>	
 	
-	</header>
-	
-	<img src="final-app/public/images/andrew-shelley-3Fwew-yifFA-unsplash.jpg" alt="Climber" width="458" height="647" class="fishes" >
-
-	<section>
-    <h1>Login</h1>
-    <p>Note: This is a temporary form I created to test my login functionality.</p>
+<section>
+   
     
+<div class="col">
+	 <h1 style="color: #712177">Login</h1>
     <form action="/login" method="POST">
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
-        <input type="submit" value="Login">
+        <input type="text" style="background-color:#bae0f5;" name="username" placeholder="Username">
+        <input type="password" style="background-color:#bae0f5;" name="password" placeholder="Password">
+        <input type="submit" style="background-color:#955999;" value="Login">
     </form>
-	</section>
-	
-	<div class="tri"><img src="final-app/public/images/untitled-3.gif" alt="Climber"</div>
+</div>
+</section>
 	
 </body>
 </html>
