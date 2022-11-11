@@ -14,6 +14,78 @@ min-height: 10vh;
 	padding-top: 5px;
 	 position:absolute;
      
-      z-index: 2;
+}
+
+
+/* Container holding the image and the text */
+.container {
+  text-align: center;
+  color: black;
+	font-size: 300px;
+}
+
+/* Bottom right text */
+.text-overlay {
+  position: absolute;
+  bottom: 8px;
+  right: 16px;
+	top: 0;
+  left: 0;
+  padding: 1rem;
+}
+
+ section { 
+  display: block;
+  position: absolute;
+	 bottom: 8px;
+  right: 5px;
+	top: 200px;
+  float: right;
+  padding: 1rem;
 	
 }
+
+
+
+/* Two-column layout */
+.col {
+  float: left;
+  width: 50%;
+  margin: auto;
+  
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* vertical line */
+.vl {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  border: 2px solid #ddd;
+  height: 175px;
+}
+
+/* text inside the vertical line */
+.inner {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f1f1f1;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  padding: 8px 10px;
+}
+
+* Responsive layout - when the screen is less than 650px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 650px) {
+  .col {
+    width: 100%;
+    margin-top: 0;
+  }
