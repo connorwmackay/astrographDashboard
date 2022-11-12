@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("templates/head"); -%>
+    <title>Upload - Dashboard</title>
+</head>
+<body>
+    <%- include('templates/navbar'); -%>
+    <h2>Upload (TEMPORARY)</h2>
+
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <input type="file" name="csvFile" id="csvFile">
+        <input type="submit" value="Upload">
+    </form>
+
+    <!-- This only shows up when a file has been uploaded -->
+    <% if (uploaded) { %>
+        <p>Uploaded <%= fileName %></p>
+    <% } else if (error) { %>
+        <p>Error <%= fileName %> is not an Excel file</p>
+    <% } %>
+
+    <%- include('templates/body_js'); -%>
+</body>
+</html>

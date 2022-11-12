@@ -88,10 +88,12 @@ async function createAdminUser() {
 // Include the Routers
 const homeRouter = require('./routes/home.js');
 const userRouter = require('./routes/user.js');
+const uploadRouter = require('./routes/upload.js');
 
 // Use the routers at their respective url
 app.use('/', homeRouter);
 app.use('/', userRouter);
+app.use('/upload', uploadRouter);
 
 // Try to connect to the database, using the function defined above
 connectMongoDB()
