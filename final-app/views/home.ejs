@@ -9,6 +9,10 @@
     <img src="/images/rgu_logo.jpg" alt="RGU Logo" width="100">
     <h1>Home</h1>
 
+    <% if (user) { %>
+        <p>Logged in as <%= user.username %></p>
+    <% } %>
+
     <script src="/javascript/graphs.js"></script>
     <%- include('templates/body_js'); -%>
 </body>

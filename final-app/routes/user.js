@@ -37,7 +37,7 @@ function isPasswordCorrect(passwordHash, passwordSalt, password) {
 }
 
 router.get('/login', async(req, res) => {
-    res.render('login', {});
+    res.render('login', {user: req.session.user});
 });
 
 // A route that allows a username and password to perform a login
@@ -55,6 +55,14 @@ router.post('/login', async(req, res) => {
             if (userFindResult != null) {
                 if (isPasswordCorrect(userFindResult.passwordHash, userFindResult.passwordSalt, req.body.password)) {
                     isUserLoggedIn = true;
+                    req.session.user = {userId: userFindResult._id, username: userFindResult.username};
+
+                    try {
+                        req.session.save();
+                    } catch(err) {
+                        console.log(err);
+                        isUserLoggedIn = false;
+                    }
                 }
             }
         } catch(err) {
@@ -66,7 +74,7 @@ router.post('/login', async(req, res) => {
     }
 
     if (!isUserLoggedIn) {
-        res.render('login', {wasLoginSuccessful: false});
+        res.render('login', {wasLoginSuccessful: false, user: req.session.user});
     } else {
         res.redirect(301, '/');
     }
@@ -74,7 +82,8 @@ router.post('/login', async(req, res) => {
 
 // A route that allows the currently logged in user to logout
 router.post('/logout', async(req, res) => {
-    // TODO: Implement Logout route
+    req.session.destroy();
+    res.redirect('/login');
 });
 
 // Export the created router with all the specified routes

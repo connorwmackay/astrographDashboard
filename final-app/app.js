@@ -13,6 +13,12 @@ const { MongoClient } = require('mongodb');
 // Import DotENV, allows reading of .env files
 const dotenv = require('dotenv');
 
+// User sessions
+const session = require('express-session');
+
+// Mongo Store
+const MongoStore = require('connect-mongo');
+
 // Set the port that web app will be accessible from
 const port = 8080;
 
@@ -29,6 +35,23 @@ app.use(express.urlencoded({extended: true}));
 // Connect to a database via MongoDB
 const oldDbUrl = 'mongodb://localhost:27017';
 const dbUrl = 'mongodb+srv://astrograph:astrograph@astrograph.aerbgws.mongodb.net/test';
+
+app.use(session({
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    },
+    store: new MongoStore({
+         mongoUrl: dbUrl,
+         dbName: 'dashboardApp',
+         ttl: 7 * 24 * 60 * 60,
+         crypto: {
+            secret: process.env.COOKIE_SECRET
+        }
+    })
+}));
 
 const dbClient = new MongoClient(dbUrl);
 let db;

@@ -1,1 +1,7 @@
 <h1>Navbar</h1>
+
+<% if (user) { %>
+    <form action="/logout" method="POST">
+        <input type="submit" value="Sign Out">
+    </form>
+<% } %>

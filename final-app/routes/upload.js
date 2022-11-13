@@ -27,7 +27,7 @@ var storage = multer.diskStorage({
 const upload = multer({storage: storage});
 
 router.get('/', async(req, res) => {
-    res.render('upload', {"uploaded": false, "error": false, "fileName": ""});
+    res.render('upload', {"uploaded": false, "error": false, "fileName": "", user: req.session.user});
 });
 
 router.get('/read', async(req, res) => {

@@ -7,7 +7,7 @@ const {getDatabase} = require('../db');
 
 // When the user requests to view the home page, this code will be called
 router.get('/', (req, res) => {
-    res.render('home', {});
+    res.render('home', {user: req.session.user});
 });
 
 // Export the router so that the web app can use it
