@@ -8,7 +8,7 @@ const router = express.Router();
 const {getDatabase} = require('../db');
 
 // Import to read Excel files
-const readXlsxFile = require('read-excel-file/node');
+const excelToJson = require('convert-excel-to-json');
 const fs = require('fs');
 
 // Supports handling files
@@ -34,9 +34,12 @@ router.get('/read', async(req, res) => {
     const filePath = 'uploads/upload.xlsx';
 
     if (fs.existsSync(filePath)) {
-        readXlsxFile(fs.createReadStream(filePath)).then((rows, errors) => {
-            res.send({data: rows});
+
+        const result = excelToJson({
+            source: fs.readFileSync(filePath)
         });
+        
+        res.send({data: result});
     } else {
         res.send({
             data: [],
