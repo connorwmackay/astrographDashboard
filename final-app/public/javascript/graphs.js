@@ -111,14 +111,6 @@ function getAcademicYear(date) {
     return academicYear;
 }
 
-
-function getAcademicYearLabel(academicYear) {
-    let start = "0" + academicYear["start"].getDate() + "/0" + (academicYear["start"].getMonth()+1) + "/" + academicYear["start"].getFullYear();
-    let end = academicYear["end"].getDate() + "/0" + (academicYear["end"].getMonth()+1) + "/" + academicYear["end"].getFullYear();
-
-    return start;
-}
-
 // Sets up the Startups Created By Academic Year Graph
 function setupStartupsCreatedGraph(data) {
     registrationDates = getStringColumn(data, 'G', ["Registration Date"]);
@@ -164,7 +156,7 @@ function setupStartupsCreatedGraph(data) {
     let subdata = []
 
     for (let i = 0; i < startupsPerYear.length; i++) {
-        labels.push(getAcademicYearLabel(startupsPerYear[i]["academicYear"]));
+        labels.push("0" + (startupsPerYear[i]["academicYear"]["start"].getMonth()+1) + "/" + startupsPerYear[i]["academicYear"]["start"].getFullYear());
         subdata.push(
             startupsPerYear[i]["numStartups"]
         );
