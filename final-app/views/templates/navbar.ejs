@@ -1,7 +1,34 @@
-<h1>Navbar</h1>
+<main class="d-flex flex-nowrap">
+    <div class="b-example-divider b-example-vr"></div>
+        <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
+        <div class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi pe-none me-2" width="30" height="24"></svg><span class="fs-5 fw-semibold">Dashboard</span></div>
+        <ul class="list-unstyled ps-0">     
+            <li class="mb-1">
+                <li><a href="/" class="btn link-dark d-inline-flex text-decoration-none align-items-center rounded border-0 collapsed">Dashboard</a></li>
+            </li>
+            
+            <li class="mb-1 ">
+                <li><a href="/upload" class="btn link-dark d-inline-flex text-decoration-none align-items-center rounded border-0 collapsed">Upload</a></li>
+            </li>
+            
+            <li class="border-top my-3"></li>
+            <li class="mb-1">
+                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">Account</button>
+                <div class="collapse" id="account-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Create Account</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        </div>
+    </div>
+    
+    <div class="b-example-divider b-example-vr"></div>
 
-<% if (user) { %>
+<!-- <% if (user) { %>
     <form action="/logout" method="POST">
         <input type="submit" value="Sign Out">
     </form>
-<% } %>
+<% } %> -->

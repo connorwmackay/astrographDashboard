@@ -6,31 +6,33 @@
 </head>
 <body>
     <%- include('templates/navbar'); -%>
-    <img src="/images/rgu_logo.jpg" alt="RGU Logo" width="100">
-    <h1>Home</h1>
+    <section id="content">
+        <h1>Home</h1>
 
-    <% if (user) { %>
-        <p>Logged in as <%= user.username %></p>
-    <% } %>
+        <% if (user) { %>
+            <p>Logged in as <%= user.username %></p>
+        <% } %>
 
-    <div class="container text-center">
-        <div class="row">
-            <div class="col">
-                <canvas id="startupsCreatedGraph"></canvas>
+        <div class="container text-center">
+            <div class="row">
+                <div class="col">
+                    <canvas id="startupsCreatedGraph"></canvas>
+                </div>
+                <div class="col">
+                    <!-- Graph would go here-->
+                </div>
             </div>
-            <div class="col">
-                <!-- Graph would go here-->
+            <div class="row">
+                <div class="col">
+                    <!-- Graph would go here-->
+                </div>
+                <div class="col">
+                    <!-- Graph would go here-->
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-                <!-- Graph would go here-->
-            </div>
-            <div class="col">
-                <!-- Graph would go here-->
-            </div>
-        </div>
-    </div>
+    </section>
+</main>
 
     <script src="/javascript/graphs.js"></script>
     <%- include('templates/body_js'); -%>
