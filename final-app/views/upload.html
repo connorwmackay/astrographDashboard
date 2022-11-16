@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+	 <%- include("templates/head"); -%>
+    <title>Upload - Dashboard</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/rgu.css">
+	
+		   <style>
+body, html {
+  height: 100%;
+	width: 100%;
+  margin: 0;
+}
+
+.bg {
+  /* The image used */
+  background-image: url("images/uploadggraph.gif");
+
+  /* Full height */
+  height: 100%; 
+	width: 
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  position: relative;
+}
+			   
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 1; /* Firefox */
+}
+
+input[type=submit] {
+  color: white;
+  cursor: pointer;
+}
+
+			   
+</style>
+	
+</head>
+
+<body>
+	
+ <div class="bg"></div>	
+	
+<section>
+   
+<div class="col">
+	 <h1 style="color: #712177">Upload</h1>
+	<form action="/action_page.php">
+  <input type="file" id="myFile" name="filename">
+		<br></br>
+  <input type="submit" style="background-color:#955999;">
+</form>
+	
+</div>
+</section>
+	
+</body>
+</html>
