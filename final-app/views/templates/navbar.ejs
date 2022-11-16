@@ -5,19 +5,32 @@
         <svg class="bi pe-none me-2" width="30" height="24"></svg><span class="fs-5 fw-semibold">Dashboard</span></div>
         <ul class="list-unstyled ps-0">     
             <li class="mb-1">
-                <li><a href="/" class="btn link-dark d-inline-flex text-decoration-none align-items-center rounded border-0 collapsed">Dashboard</a></li>
+                <li><a href="/" class="btn btn-toggle d-inline-flex text-decoration-none align-items-center rounded border-0 collapsed">Dashboard</a></li>
             </li>
             
             <li class="mb-1 ">
-                <li><a href="/upload" class="btn link-dark d-inline-flex text-decoration-none align-items-center rounded border-0 collapsed">Upload</a></li>
+                <li><a href="/upload" class="btn btn-toggle d-inline-flex text-decoration-none align-items-center rounded border-0 collapsed">Upload</a></li>
             </li>
             
             <li class="border-top my-3"></li>
             <li class="mb-1">
-                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">Account</button>
+                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" id="account" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+                    <% if (user) { %>
+                        <%= user.username %>
+                    <% } else { %>
+                        Account
+                    <% } %>
+                </button>
                 <div class="collapse" id="account-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1">
                         <li><a href="#" class="link-dark d-inline-flex text-decoration-none rounded">Create Account</a></li>
+                        <li>
+                            <a href="#" class="link-dark d-inline-flex text-decoration-none rounded">
+                                <form action="/logout" class="" method="POST">
+                                    <input class="btn btn-s ps-0 d-inline-flex rounded border-0" type="submit" value="Sign Out">
+                                </form>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -28,7 +41,5 @@
     <div class="b-example-divider b-example-vr"></div>
 
 <!-- <% if (user) { %>
-    <form action="/logout" method="POST">
-        <input type="submit" value="Sign Out">
-    </form>
+    
 <% } %> -->
