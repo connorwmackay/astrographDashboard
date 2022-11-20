@@ -98,6 +98,8 @@ height: 100vh;
     display: block;
     height: 100vh;
     width: 100vw;
+    overflow-y: scroll;
+    padding-bottom: 1vh;
 }
 
 #account {

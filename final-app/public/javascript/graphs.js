@@ -328,12 +328,109 @@ function setupFullTimeJobsCreatedGraph(data) {
       });
 }
 
+function setupFullTimeEquivelentJobsCreatedGraph(data) {
+    const registrationDates = getStringColumn(data, 'G', ["Registration Date"]);
+    const fteJobsCreated = getNumberColumnFrom(data, 'AN', 5);
+    console.log(fteJobsCreated);
+
+    let fteJobsPerYear = [];
+
+    for (let i=0; i < fteJobsCreated.length; i++) {
+        let hasAddedJobs = false;
+
+        const numFtJobs = fteJobsCreated[i];
+        const registrationDate = registrationDates[i];
+
+        for (let j=0; j < fteJobsPerYear.length; j++) {
+            if (getAcademicYear(new Date(registrationDate))["start"].toDateString() == fteJobsPerYear[j]["academicYear"]["start"].toDateString()) {
+                fteJobsPerYear[j]["fullTimeJobs"] += numFtJobs
+                hasAddedJobs = true;
+            }
+        }
+
+        if (!hasAddedJobs) {
+            fteJobsPerYear.push({fullTimeJobs: numFtJobs, academicYear: getAcademicYear(new Date(registrationDate))});
+        }
+    }
+
+    // Remove years with no startups
+    for (let i = 0; i < fteJobsPerYear.length; i++) {
+        if (fteJobsPerYear[i]["fullTimeJobs"] == 0) {
+            fteJobsPerYear.splice(i, 1);
+            i -= 1;
+        }
+    }
+
+    // Make the data useable by ChartsJS
+    let labels = [];
+    let subdata = []
+
+    for (let i = 0; i < fteJobsPerYear.length; i++) {
+        labels.push("0" + (fteJobsPerYear[i]["academicYear"]["start"].getMonth()+1) + "/" + fteJobsPerYear[i]["academicYear"]["start"].getFullYear());
+        subdata.push(
+            fteJobsPerYear[i]["fullTimeJobs"]
+        );
+    }
+
+    const graphData = {
+        labels: labels,
+        datasets: [
+            {
+                label: "Full Time Equivalent Jobs Created",
+                data: subdata,
+                backgroundColor: [
+                    'rgba(66, 179, 245, 1.0)',
+                ]
+            }
+        ]
+    };
+
+    console.log(fteJobsPerYear);
+
+    const ctx = $("#fullTimeEquivJobsGraph");
+
+    // Start setting up the ChartsJS Graph
+    new Chart(ctx, {
+        type: 'bar',
+        data: graphData,
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Full Time Equivalent Jobs Created by Academic Year'
+                },
+                customCanvasBackgroundColor: {
+                    color: 'white',
+                }
+            },
+            scales: {
+                y: {
+                    min: 0.0,
+                    title: {
+                        display: true,
+                        text: "Num. Full Equivalent Time Jobs Created"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Academic Year (Starting Date)"
+                    }
+                }
+            }
+        },
+        plugins: [whiteCanvasBackgroundplugin], // Sets up the plugin defined further above
+      });
+}
+
 // Function that runs on page load
 $(() => {
     $.getJSON("/upload/read", (data) => {
         console.log(data);
         // Setup graphs here
         setupStartupsCreatedGraph(data); // 1st Graph
-        setupFullTimeJobsCreatedGraph(data); // 2nd Graph
+        setupFullTimeJobsCreatedGraph(data); // 3rd Graph
+        setupFullTimeEquivelentJobsCreatedGraph(data) // 5th Graph
     });
 });
