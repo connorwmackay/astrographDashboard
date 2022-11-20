@@ -26,6 +26,26 @@ function getNumberColumn(data, columnLetter, ignore = []) {
     return columnData;
 }
 
+function getNumberColumnFrom(data, columnLetter, startIndex = 0) {
+    columnData = [];
+    trackerData = data["data"]["Master Tracker - Dummy Data "];
+
+    for (let i=startIndex; i < trackerData.length; i++) {
+        const obj = trackerData[i];
+        let columnItem = obj[columnLetter];
+        console.log(columnItem);
+        let shouldSkip = false;
+
+        if (columnItem != null && !shouldSkip) {
+            if (typeof columnItem == 'number') {
+                columnData.push(columnItem);
+            }
+        }
+    }
+
+    return columnData;
+}
+
 function getStringColumn(data, columnLetter, ignore = []) {
     columnData = [];
     trackerData = data["data"]["Master Tracker - Dummy Data "];
@@ -212,11 +232,108 @@ function setupStartupsCreatedGraph(data) {
       });
 }
 
+function setupFullTimeJobsCreatedGraph(data) {
+    const registrationDates = getStringColumn(data, 'G', ["Registration Date"]);
+    const fullTimeJobsCreated = getNumberColumnFrom(data, 'AJ', 5);
+    console.log(fullTimeJobsCreated);
+
+    let ftJobsPerYear = [];
+
+    for (let i=0; i < fullTimeJobsCreated.length; i++) {
+        let hasAddedJobs = false;
+
+        const numFtJobs = fullTimeJobsCreated[i];
+        const registrationDate = registrationDates[i];
+
+        for (let j=0; j < ftJobsPerYear.length; j++) {
+            if (getAcademicYear(new Date(registrationDate))["start"].toDateString() == ftJobsPerYear[j]["academicYear"]["start"].toDateString()) {
+                ftJobsPerYear[j]["fullTimeJobs"] += numFtJobs
+                hasAddedJobs = true;
+            }
+        }
+
+        if (!hasAddedJobs) {
+            ftJobsPerYear.push({fullTimeJobs: numFtJobs, academicYear: getAcademicYear(new Date(registrationDate))});
+        }
+    }
+
+    // Remove years with no startups
+    for (let i = 0; i < ftJobsPerYear.length; i++) {
+        if (ftJobsPerYear[i]["fullTimeJobs"] == 0) {
+            ftJobsPerYear.splice(i, 1);
+            i -= 1;
+        }
+    }
+
+    // Make the data useable by ChartsJS
+    let labels = [];
+    let subdata = []
+
+    for (let i = 0; i < ftJobsPerYear.length; i++) {
+        labels.push("0" + (ftJobsPerYear[i]["academicYear"]["start"].getMonth()+1) + "/" + ftJobsPerYear[i]["academicYear"]["start"].getFullYear());
+        subdata.push(
+            ftJobsPerYear[i]["fullTimeJobs"]
+        );
+    }
+
+    const graphData = {
+        labels: labels,
+        datasets: [
+            {
+                label: "Full Time Jobs Created",
+                data: subdata,
+                backgroundColor: [
+                    'rgba(144, 3, 252, 1.0)',
+                ]
+            }
+        ]
+    };
+
+    console.log(ftJobsPerYear);
+
+    const ctx = $("#fullTimeJobsGraph");
+
+    // Start setting up the ChartsJS Graph
+    new Chart(ctx, {
+        type: 'bar',
+        data: graphData,
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Full Time Jobs Created by Academic Year'
+                },
+                customCanvasBackgroundColor: {
+                    color: 'white',
+                }
+            },
+            scales: {
+                y: {
+                    min: 0.0,
+                    title: {
+                        display: true,
+                        text: "Num. Full Time Jobs Created"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Academic Year (Starting Date)"
+                    }
+                }
+            }
+        },
+        plugins: [whiteCanvasBackgroundplugin], // Sets up the plugin defined further above
+      });
+}
+
 // Function that runs on page load
 $(() => {
     $.getJSON("/upload/read", (data) => {
         console.log(data);
         // Setup graphs here
-        setupStartupsCreatedGraph(data);
+        setupStartupsCreatedGraph(data); // 1st Graph
+        setupFullTimeJobsCreatedGraph(data); // 2nd Graph
     });
 });
