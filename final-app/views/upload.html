@@ -54,11 +54,27 @@ input[type=submit] {
 	 <h1 style="color: #712177">Upload</h1>
 	<form action="/action_page.php">
   <input type="file" id="myFile" name="filename">
-		<br></br>
+		<br>
   <input type="submit" style="background-color:#955999;">
 </form>
 	
 </div>
+</section>
+	
+	<% if (uploaded) { %>
+		<section>
+        <div class="col">
+	
+            <img src="images/tick.gif" alt="Upload Successful" width="50" height="50">
+			<br>
+			<%= fileName %>
+			<h1 style="color: #712177">File Upload Success</h1>
+		
+        <% } else if (error) { %>
+            <p style="color: #712177"> Error! <%= fileName %> Upload unsuccessful. Please check file type.</p>
+        <% } %>
+	</div>
+	
 </section>
 	
 </body>
