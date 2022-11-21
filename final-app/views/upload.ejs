@@ -3,24 +3,73 @@
 <head>
     <%- include("templates/head"); -%>
     <title>Upload - Dashboard</title>
+
+    <meta charset="UTF-8">
+	 <%- include("templates/head"); -%>
+    <title>Upload - Dashboard</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/loginfm.css">
+	
+    <style>
+        body, html {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+
+        .bg {
+        /* The image used */
+        background-image: url("images/uploadggraph.gif");
+
+        /* Full height */
+        height: 100%; 
+        width: 100%;
+
+        /* Center and scale the image nicely */
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        position: relative;
+        }
+                    
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+        color: white;
+        opacity: 1; /* Firefox */
+        }
+
+        input[type=submit] {
+        color: white;
+        cursor: pointer;
+        }  
+    </style>
 </head>
 <body>
     <%- include('templates/navbar'); -%>
 
-    <section id="content">
-        <h2>Upload (TEMPORARY)</h2>
-
-        <form action="/upload" method="POST" enctype="multipart/form-data">
-            <input type="file" name="csvFile" id="csvFile">
-            <input type="submit" value="Upload">
-        </form>
-
-        <!-- This only shows up when a file has been uploaded -->
-        <% if (uploaded) { %>
-            <p>Uploaded <%= fileName %></p>
-        <% } else if (error) { %>
-            <p>Error <%= fileName %> is not an Excel file</p>
-        <% } %>
+    <section id="content" class="bg">
+        <section class="sec">
+            <div class="col2">
+                <h1 style="color: #712177">Upload</h1>
+                <form action="/upload" method="POST" enctype="multipart/form-data">
+                    <input class="form-control" type="file" id="myFile" name="csvFile">
+                    <br>
+                    <input type="submit" class="btn" style="background-color:#955999;">
+                </form>
+            </div>
+        </section>
+        
+        <section class="sec2">
+            <div class="col2">
+                <% if (uploaded) { %>
+                    <img src="images/tick.gif" alt="Upload Successful" width="50" height="50">
+                    <br>
+                    <%= fileName %>
+                    <h1 style="color: #712177">File Upload Success</h1>
+                <% } else if (error) { %>
+                    <p style="color: #712177"> Error! <%= fileName %> Upload unsuccessful. Please check file type.</p>
+                <% } %>
+            </div>
+        </section>
     </section>
     </main>
 

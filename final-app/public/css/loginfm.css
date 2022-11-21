@@ -10,10 +10,9 @@
 .tri img {
 	
 min-height: 10vh;
-   width: 100%;
+  width: 100vh;
 	padding-top: 5px;
-	 position:absolute;
-     
+	position:absolute;
 }
 
 
@@ -34,21 +33,26 @@ min-height: 10vh;
   padding: 1rem;
 }
 
- section { 
+.sec { 
   display: block;
   position: absolute;
-	 bottom: 8px;
   right: 5px;
 	top: 200px;
   float: right;
   padding: 1rem;
-	
 }
 
-
+.sec2 { 
+  display: block;
+  position: absolute;
+  right: 0px;
+	top: 350px;
+  float: right;
+  padding: 1rem;
+}
 
 /* Two-column layout */
-.col {
+.col2 {
   float: left;
   width: 50%;
   margin: auto;

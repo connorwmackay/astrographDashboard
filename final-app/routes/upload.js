@@ -27,7 +27,7 @@ var storage = multer.diskStorage({
 const upload = multer({storage: storage});
 
 router.get('/', async(req, res) => {
-    res.render('upload', {"uploaded": false, "error": false, "fileName": "", user: req.session.user});
+    res.render('upload', {"uploaded": false, "user": req.session.user, "error": false, "fileName": "", user: req.session.user});
 });
 
 router.get('/read', async(req, res) => {
@@ -49,10 +49,10 @@ router.get('/read', async(req, res) => {
 
 router.post('/', upload.single('csvFile'), async(req, res) => {
     if (req.file.originalname.includes(".xlsx")) {
-        res.render('upload', {"uploaded": true, "error": false, "fileName": req.file.originalname});
+        res.render('upload', {"uploaded": true, "user": req.session.user, "error": false, "fileName": req.file.originalname});
     } else {
         // TODO: Delete the upload.csv file on error
-        res.render('upload', {"uploaded": false, "error": true, "fileName": req.file.originalname});
+        res.render('upload', {"uploaded": false, "user": req.session.user, "error": true, "fileName": req.file.originalname});
     }
 });
 
