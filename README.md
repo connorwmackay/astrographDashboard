@@ -6,13 +6,11 @@ To install all the packages that the web app depends on, type **npm install** in
 
 You'll need NodeJS installed, you can find it [here](https://nodejs.org/en/download/)
 
-Additionally, this app uses MongoDB for its database. Therfore, you will need to install [MongoDB](https://www.mongodb.com/try/download/community), as well as [Mongo Compass](https://www.mongodb.com/try/download/compass) if it didn't install with MongoDB (which is a gui interface for managing MongoDB).
-
 ## Running the app
 
-To run the app, open a terminal in the folder that contains *app.js* and type **npm start**. The terminal should then give a link, copy that link and paste it into a browser. You should now see the home page of the app.
+To run the app, open a terminal in the project folder, then ```cd final-app``` if you aren't already there and type ```npm install```, followed by ```npm start```. The terminal should then give a link, copy that link and paste it into a browser. You should now see the home page of the app.
 
-To see if the database has properly connected, after starting the app at least once, you should open Mongo Compass and then you should see a database called **dashboardApp** that contains a table called **test** with one record.
+To see if the database has properly connected you should see test saying the database was successfully connected.
 
 ## App Structure
 
