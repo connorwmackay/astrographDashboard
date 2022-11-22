@@ -424,6 +424,103 @@ function setupFullTimeEquivelentJobsCreatedGraph(data) {
       });
 }
 
+function setupPartTimeJobsCreatedGraph(data) {
+    const registrationDates = getStringColumn(data, 'G', ["Registration Date"]);
+    const partTimeJobsCreated = getNumberColumnFrom(data, 'AL', 5);
+    console.log(partTimeJobsCreated);
+
+    let ptJobsPerYear = [];
+
+    for (let i=0; i < partTimeJobsCreated.length; i++) {
+        let hasAddedJobs = false;
+
+        const numPtJobs = partTimeJobsCreated[i];
+        const registrationDate = registrationDates[i];
+
+        for (let j=0; j < ptJobsPerYear.length; j++) {
+            if (getAcademic(new Date(registrationDate))["start"].toDateString() == ftJobsPerYear[j]["academicYear"]["start"].toDateString()){
+                ptJobsPerYear[j]["partTimeJobs"] += numPtJobs
+                hasAddedJobs = true;
+            }
+        }
+
+        if (!hasAddedJobs) {
+            ptJobsPerYear.push({partTimeJobs: numPtJobs, academicYear: getAcademicYear(new Date(registrationDate))});
+        }
+    }
+
+    // Remove the years no startups
+    for (let i = 0; i < ptJobsPerYear.length; i++) {
+        if (ptJobsPerYear[i]["partTimeJobs"] == 0) {
+            ptJobsPerYear.splice(i, 1);
+            i -= 1;
+        }
+    }
+
+    // Make the data useable ChartJS
+    let labels = [];
+    let subdata = []
+
+    for (let i = 0; i < ptJobsPerYear.length; i++) {
+        labels.push("0" + (ptJobsPerYear[i]["academicYear"]["start"].getMonth()+1 + "/" + ptJobsPerYear[i]["academicYear"]["start"].getFullYear()));
+        subdata.push(
+            ptJobsPerYear[i]["partTimeJobs"]
+        );
+    }
+
+    const graphData = {
+        labels: labels, 
+        Datasets: [
+            {
+                label: "Part Time Jobs Created",
+                data: subdata, 
+                backgroundColor: [
+                    'rgba(144, 3, 252, 1.0)',
+                ]
+            }
+        ]
+    };
+
+    console.log(ptJobsPerYear);
+
+    const ctx = $("#partTimeJobsGraph");
+
+    // Start setting up the ChartJS Graph
+    new CharacterData(ctx, {
+        type: 'bar', 
+        data: graphData(),
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true, 
+                    text: 'Part Time Jobs Created By Academic Year'
+                },
+                customCanvasBackgroundColor : {
+                    color: 'white',
+
+                }
+            },
+            scales: {
+                y: {
+                    min: 0.0,
+                    title: {
+                        display: true,
+                        text: "Num. Part Time Jobs Created"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Academic Year (Starting Date)"
+                    }
+                }
+            }
+        },
+        plugins: [whiteCanvasBackgroundplugin], // Sets up the plugin defined further above
+    });
+}
+
 // Function that runs on page load
 $(() => {
     $.getJSON("/upload/read", (data) => {
@@ -431,6 +528,7 @@ $(() => {
         // Setup graphs here
         setupStartupsCreatedGraph(data); // 1st Graph
         setupFullTimeJobsCreatedGraph(data); // 3rd Graph
+       // setupPartTimeJobsCreatedGraph(data); // 4th Graph
         setupFullTimeEquivelentJobsCreatedGraph(data) // 5th Graph
     });
 });

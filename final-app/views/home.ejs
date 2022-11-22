@@ -3,40 +3,86 @@
 <head>
     <%- include("templates/head"); -%>
     <title>Home - Dashboard</title>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
 </head>
 <body>
     <%- include('templates/navbar'); -%>
-    <section id="content">
-        <div class="container text-center">
-            <div class="row">
-                <div class="col">
-                    <canvas id="startupsCreatedGraph"></canvas>
-                </div>
-                <div class="col">
-                    <!-- Graph would go here-->
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <canvas id="fullTimeJobsGraph"></canvas>
-                </div>
-                <div class="col">
-                    <!-- Graph would go here-->
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <canvas id="fullTimeEquivJobsGraph"></canvas>
-                </div>
-                <div class="col">
-                    <!-- Graph would go here-->
-                </div>
-            </div>
-        </div>
-    </section>
-</main>
+    <img src="/images/rgu_logo.jpg" alt="RGU Logo" width="100">
+    <h1>Home</h1>
 
-    <script src="/javascript/graphs.js"></script>
     <%- include('templates/body_js'); -%>
+
+     <!-- line chart canvas element -->
+     <canvas id="buyers" width="600" height="400"></canvas>
+     <!-- pie chart canvas element -->
+     <canvas id="countries" width="600" height="400"></canvas>
+     <!-- bar chart canvas element -->
+     <canvas id="income" width="600" height="400"></canvas>
+     <script>
+         // line chart data
+         var buyerData = {
+             labels : ["January","February","March","April","May","June"],
+             datasets : [
+             {
+                 fillColor : "rgba(172,194,132,0.4)",
+                 strokeColor : "#ACC26D",
+                 pointColor : "#fff",
+                 pointStrokeColor : "#9DB86D",
+                 data : [203,156,99,251,305,247]
+             }
+         ]
+         }
+         // get line chart canvas
+         var buyers = document.getElementById('buyers').getContext('2d');
+         // draw line chart
+         new Chart(buyers).Line(buyerData);
+         // pie chart data
+         var pieData = [
+             {
+                
+                 value: 20,
+                 color:"#878BB6"
+             },
+             {
+                 value : 40,
+                 color : "#4ACAB4"
+             },
+             {
+                 value : 10,
+                 color : "#FF8153"
+             },
+             {
+                 value : 30,
+                 color : "#FFEA88"
+             }
+         ];
+         // pie chart options
+         var pieOptions = {
+              segmentShowStroke : false,
+              animateScale : true
+         }
+         // get pie chart canvas
+         var countries= document.getElementById("countries").getContext("2d");
+         // draw pie chart
+         new Chart(countries).Pie(pieData, pieOptions);
+         // bar chart data
+         
+         var barData = {
+            
+             labels : ["Opitmal Data ","Invictious Technology","Transition Climate change","Evolution Monitors"],
+             datasets : [
+                 {
+                     fillColor : "#48A497",
+                     strokeColor : "#48A4D1",
+                     data : [20000,10000,2000,10000]
+                 }
+
+             ]
+         }
+         // get bar chart canvas
+         var income = document.getElementById("income").getContext("2d");
+         // draw bar chart
+         new Chart(income).Bar(barData);
+     </script>
 </body>
 </html>
