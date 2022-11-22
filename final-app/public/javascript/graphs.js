@@ -438,7 +438,7 @@ function setupPartTimeJobsCreatedGraph(data) {
         const registrationDate = registrationDates[i];
 
         for (let j=0; j < ptJobsPerYear.length; j++) {
-            if (getAcademic(new Date(registrationDate))["start"].toDateString() == ftJobsPerYear[j]["academicYear"]["start"].toDateString()){
+            if (getAcademicYear(new Date(registrationDate))["start"].toDateString() == ptJobsPerYear[j]["academicYear"]["start"].toDateString()){
                 ptJobsPerYear[j]["partTimeJobs"] += numPtJobs
                 hasAddedJobs = true;
             }
@@ -486,9 +486,9 @@ function setupPartTimeJobsCreatedGraph(data) {
     const ctx = $("#partTimeJobsGraph");
 
     // Start setting up the ChartJS Graph
-    new CharacterData(ctx, {
+    new Chart(ctx, {
         type: 'bar', 
-        data: graphData(),
+        data: graphData,
         options: {
             responsive: true,
             plugins: {
@@ -528,7 +528,7 @@ $(() => {
         // Setup graphs here
         setupStartupsCreatedGraph(data); // 1st Graph
         setupFullTimeJobsCreatedGraph(data); // 3rd Graph
-       // setupPartTimeJobsCreatedGraph(data); // 4th Graph
-        setupFullTimeEquivelentJobsCreatedGraph(data) // 5th Graph
+        setupPartTimeJobsCreatedGraph(data); // 4th Graph
+        setupFullTimeEquivelentJobsCreatedGraph(data); // 5th Graph
     });
 });
