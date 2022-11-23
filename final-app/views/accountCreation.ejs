@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("templates/head"); -%>
+    <title>Account Creation - Dashboard</title>
+    <link rel="stylesheet" href="/css/accountCreation.css">
+</head>
+<body>
+    <%- include('templates/navbar'); -%>
+    <section id="content">
+        <form action="action_page.php" style="border:1px solid #ccc">
+            <div class="container">
+
+                <h1>Account Creation Page</h1>
+
+                <p>Please provide the personal details of the account:</p>
+
+                <hr>
+
+                <label for="first_name"><b>First Name</b></label>
+                <input type="text" placeholder="Enter First Name" name="first_name" required>
+
+                <label for="last_name"><b>Last Name</b></label>
+                <input type="text" placeholder="Enter Last Name" name="last_name" required>
+
+                <label for="username"><b>Username</b></label>
+                <input type="text" placeholder="Proposed Username" name="username" required>
+
+                <label for="email"><b>Email</b></label>
+                <input type="text" placeholder="Enter Email" name="email" required>
+
+                <label for="psw"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+
+                <label for="psw-repeat"><b>Repeat Password</b></label>
+                <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+
+                <div class="clearfix">
+                    <button type="button" class="cancelbtn">Cancel</button>
+                    <button type="submit" class="signupbtn">Create</button>
+                </div>
+
+            </div>
+        </form>
+    </section>
+    </main>
+    <%- include('templates/body_js'); -%>
+</body>

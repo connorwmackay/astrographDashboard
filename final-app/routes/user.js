@@ -86,6 +86,10 @@ router.post('/logout', async(req, res) => {
     res.redirect('/login');
 });
 
+router.get('/accountCreation', async(req, res) => {
+    res.render('accountCreation', {user: req.session.user});
+});
+
 // Export the created router with all the specified routes
 module.exports = router;
 module.exports.hashPassword = hashPassword;
