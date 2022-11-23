@@ -521,12 +521,116 @@ function setupPartTimeJobsCreatedGraph(data) {
     });
 }
 
+/*
+*   
+*   StartUp Co-Founders
+*
+*/
+
+function setupNumberCoFoundersGraph(data) {
+    const registrationDates = getStringColumn(data, 'G', ["Registration Date"]);
+    const noCoFounders = getNumberColumnFrom(data, 'U', 5);
+    console.log(noCoFounders);
+
+    let CFPerYear = [];
+
+    for (let i=0; i < noCoFounders.length; i++) {
+        let hasAddedJobs = false;
+
+        const numCF = noCoFounders[i];
+        const registrationDate = registrationDates[i];
+
+        for (let j=0; j < CFPerYear.length; j++) {
+            if (getAcademicYear(new Date(registrationDate))["start"].toDateString() == CFPerYear[j]["academicYear"]["start"].toDateString()){
+                CFPerYear[j]["CoFounders"] += numCF
+                hasAddedJobs = true;
+            }
+        }
+
+        if (!hasAddedJobs) {
+            CFPerYear.push({CoFounders: numCF, academicYear: getAcademicYear(new Date(registrationDate))});
+        }
+    }
+
+    // Remove the years no startups
+    for (let i = 0; i < CFPerYear.length; i++) {
+        if (CFPerYear[i]["CoFounders"] == 0) {
+            CFPerYear.splice(i, 1);
+            i -= 1;
+        }
+    }
+
+    // Make the data useable ChartJS
+    let labels = [];
+    let subdata = []
+
+    for (let i = 0; i < CFPerYear.length; i++) {
+        labels.push("0" + (CFPerYear[i]["academicYear"]["start"].getMonth()+1 + "/" + CFPerYear[i]["academicYear"]["start"].getFullYear()));
+        subdata.push(
+            CFPerYear[i]["partTimeJobs"]
+        );
+    }
+
+    const graphData = {
+        labels: labels, 
+        Datasets: [
+            {
+                label: "Co-founders",
+                data: subdata, 
+                backgroundColor: [
+                    'rgba(144, 3, 252, 1.0)',
+                ]
+            }
+        ]
+    };
+
+    console.log(CFPerYear);
+
+    const ctx = $("#numOfCoFounders");
+
+    // Start setting up the ChartJS Graph
+    new Chart(ctx, {
+        type: 'bar', 
+        data: graphData,
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true, 
+                    text: 'Co-Founders By Academic Year'
+                },
+                customCanvasBackgroundColor : {
+                    color: 'white',
+
+                }
+            },
+            scales: {
+                y: {
+                    min: 0.0,
+                    title: {
+                        display: true,
+                        text: "Num. Co-Founders"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Academic Year (Starting Date)"
+                    }
+                }
+            }
+        },
+        plugins: [whiteCanvasBackgroundplugin], // Sets up the plugin defined further above
+    });
+}
+
 // Function that runs on page load
 $(() => {
     $.getJSON("/upload/read", (data) => {
         console.log(data);
         // Setup graphs here
         setupStartupsCreatedGraph(data); // 1st Graph
+        setupNumberCoFoundersGraph(data); // 2nd Graph
         setupFullTimeJobsCreatedGraph(data); // 3rd Graph
         setupPartTimeJobsCreatedGraph(data); // 4th Graph
         setupFullTimeEquivelentJobsCreatedGraph(data); // 5th Graph
