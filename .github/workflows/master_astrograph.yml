@@ -54,4 +54,4 @@ jobs:
           app-name: 'astrograph'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_66F80FD00175411D9A02BED8B716B940 }}
-          package: ./final-app
+          package: .
