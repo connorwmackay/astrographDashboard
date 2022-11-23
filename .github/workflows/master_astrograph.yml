@@ -22,7 +22,6 @@ jobs:
           node-version: '18.x'
 
       - name: npm install, build, and test
-        working-directory: ./final-app
         run: |
           npm install
           npm run build --if-present
@@ -32,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: ./final-app
+          path: .
 
   deploy:
     runs-on: ubuntu-latest
