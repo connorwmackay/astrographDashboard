@@ -424,6 +424,9 @@ function setupFullTimeEquivelentJobsCreatedGraph(data) {
       });
 }
 
+
+
+
 function setupPartTimeJobsCreatedGraph(data) {
     const registrationDates = getStringColumn(data, 'G', ["Registration Date"]);
     const partTimeJobsCreated = getNumberColumnFrom(data, 'AL', 5);
@@ -624,6 +627,110 @@ function setupNumberCoFoundersGraph(data) {
     });
 }
 
+
+/*
+*   
+*   Founders Investment
+*
+*/
+
+function setupTotalFounderInvestment(data) {
+    const registrationDates = getStringColumn(data, 'G', ["Registration Date"]);
+    const TotalFounderInvestment = getNumberColumnFrom(data, 'U', 5);
+    console.log(TotalFounderInvestment);
+
+    let TFIperYear = [];
+
+    for (let i=0; i < TotalFounderInvestment.length; i++) {
+        let hasAddedJobs = false;
+
+        const numTFI = TotalFounderInvestment[i];
+        const registrationDate = registrationDates[i];
+
+        for (let j=0; j < TFIperYear.length; j++) {
+            if (getAcademicYear(new Date(registrationDate))["start"].toDateString() == TFIperYear[j]["academicYear"]["start"].toDateString()){
+                TFIperYear[j]["TotalInvestment"] += numTFI
+                hasAddedJobs = true;
+            }
+        }
+
+        if (!hasAddedJobs) {
+            TFIperYear.push({TotalInvestment: numTFI, academicYear: getAcademicYear(new Date(registrationDate))});
+        }
+    }
+
+    // Remove the years no startups
+    for (let i = 0; i < TFIperYear.length; i++) {
+        if (TFIperYear[i]["TotalInvestment"] == 0) {
+            TFIperYear.splice(i, 1);
+            i -= 1;
+        }
+    }
+
+    // Make the data useable ChartJS
+    let labels = [];
+    let subdata = []
+
+    for (let i = 0; i < TFIperYear.length; i++) {
+        labels.push("0" + (TFIperYear[i]["academicYear"]["start"].getMonth()+1 + "/" + TFIperYear[i]["academicYear"]["start"].getFullYear()));
+        subdata.push(
+            TFIperYear[i]["TotalFounderInvestment"]
+        );
+    }
+
+    const graphData = {
+        labels: labels, 
+        Datasets: [
+            {
+                label: "Founder Investment",
+                data: subdata, 
+                backgroundColor: [
+                    'rgba(144, 3, 252, 1.0)',
+                ]
+            }
+        ]
+    };
+
+    console.log(TFIperYear);
+
+    const ctx = $("#numTotalFounderInvestment");
+
+    // Start setting up the ChartJS Graph
+    new Chart(ctx, {
+        type: 'bar', 
+        data: graphData,
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true, 
+                    text: 'Founder Investment By Academic Year'
+                },
+                customCanvasBackgroundColor : {
+                    color: 'white',
+
+                }
+            },
+            scales: {
+                y: {
+                    min: 0.0,
+                    title: {
+                        display: true,
+                        text: "Num. founder Investment"
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: "Academic Year (Starting Date)"
+                    }
+                }
+            }
+        },
+        plugins: [whiteCanvasBackgroundplugin], // Sets up the plugin defined further above
+    });
+}
+
 // Function that runs on page load
 $(() => {
     $.getJSON("/upload/read", (data) => {
@@ -634,5 +741,6 @@ $(() => {
         setupFullTimeJobsCreatedGraph(data); // 3rd Graph
         setupPartTimeJobsCreatedGraph(data); // 4th Graph
         setupFullTimeEquivelentJobsCreatedGraph(data); // 5th Graph
+        setupTotalFounderInvestment(data); // 6th Graph
     });
 });
