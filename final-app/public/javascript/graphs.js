@@ -583,7 +583,7 @@ function setupNumberCoFoundersGraph(data) {
                 label: "Co-founders",
                 data: subdata, 
                 backgroundColor: [
-                    'rgba(144, 3, 252, 1.0)',
+                    'rgba(255, 99, 132, 1.0)',
                 ]
             }
         ]
@@ -682,12 +682,12 @@ function setupTotalFounderInvestment(data) {
 
     const graphData = {
         labels: labels, 
-        Datasets: [
+        datasets: [
             {
                 label: "Founder Investment",
                 data: subdata, 
                 backgroundColor: [
-                    'rgba(144, 3, 252, 1.0)',
+                    'rgba(66, 179, 245, 1.0)',
                 ]
             }
         ]
