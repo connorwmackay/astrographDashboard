@@ -36,18 +36,17 @@
                 <input type="password" placeholder="Repeat Password" name="psw_repeat" required>
 
                 <label for="isAdmin">Is Admin?</label>
-                <input type="checkbox" name="isAdmin" required>
+                <input type="checkbox" name="isAdmin">
 
                 <div class="clearfix">
-                    <button type="button" class="cancelbtn">Cancel</button>
                     <button type="submit" class="signupbtn">Create</button>
                 </div>
             </div>
         </form>
         <% if (accountCreated) { %>
-            <p>The account was successfully created.</p>
+            <h2 class="text-center">The account was successfully created.</h2>
         <% } else if (error) { %>
-            <p>An error occured when creating the account. Please try again.</p>
+            <h2 class="text-center">An error occured when creating the account. Please try again.</h2>
         <% } %>
     </section>
     </main>
