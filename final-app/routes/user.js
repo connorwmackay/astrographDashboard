@@ -105,22 +105,29 @@ router.post('/accountCreation', async(req, res) => {
         try {
             const db = getDatabase();
 
-            const userHashData = hashPassword(password);
-            const userInsertQuery = db.collection('users').insertOne(
-                {
-                    firstName: firstName,
-                    lastName: lastName,
-                    email: email,
-                    username: username,
-                    passwordHash: userHashData.hash,
-                    passwordSalt: userHashData.salt,
-                    isAdmin: isAdmin
-                }
-            );
+            const userFindQuery = db.collection('users').findOne({username: username});
+            const userResult = await userFindQuery.then(result => {return result;});
 
-            const userInsertResult = await userInsertQuery.then(result => {return result;});
-
-            res.render('accountCreation', {user: req.session.user, error: false, accountCreated: true});
+            if (userResult != null) {
+                res.render('accountCreation', {user: req.session.user, error: true, accountCreated: false});
+            } else {
+                const userHashData = hashPassword(password);
+                const userInsertQuery = db.collection('users').insertOne(
+                    {
+                        firstName: firstName,
+                        lastName: lastName,
+                        email: email,
+                        username: username,
+                        passwordHash: userHashData.hash,
+                        passwordSalt: userHashData.salt,
+                        isAdmin: isAdmin
+                    }
+                );
+    
+                const userInsertResult = await userInsertQuery.then(result => {return result;});
+    
+                res.render('accountCreation', {user: req.session.user, error: false, accountCreated: true});
+            }
         } catch(err) {
             console.error(err);
             res.render('accountCreation', {user: req.session.user, error: true, accountCreated: false});
