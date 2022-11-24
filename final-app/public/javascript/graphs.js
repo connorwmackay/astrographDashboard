@@ -676,7 +676,7 @@ function setupTotalFounderInvestment(data) {
     for (let i = 0; i < TFIperYear.length; i++) {
         labels.push("0" + (TFIperYear[i]["academicYear"]["start"].getMonth()+1 + "/" + TFIperYear[i]["academicYear"]["start"].getFullYear()));
         subdata.push(
-            TFIperYear[i]["TotalFounderInvestment"]
+            TFIperYear[i]["TotalInvestment"]
         );
     }
 
