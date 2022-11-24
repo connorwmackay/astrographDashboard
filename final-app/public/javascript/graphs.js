@@ -638,7 +638,7 @@ function setupNumberCoFoundersGraph(data) {
 
 function setupTotalFounderInvestment(data) {
     const registrationDates = getStringColumn(data, 'G', ["Registration Date"]);
-    const TotalFounderInvestment = getNumberColumnFrom(data, 'U', 5);
+    const TotalFounderInvestment = getNumberColumnFrom(data, 'AB', 5);
     console.log(TotalFounderInvestment);
 
     let TFIperYear = [];
