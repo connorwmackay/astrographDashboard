@@ -718,7 +718,7 @@ function setupTotalFounderInvestment(data) {
                     min: 0.0,
                     title: {
                         display: true,
-                        text: "Num. founder Investment"
+                        text: "Founder Investment (£)"
                     }
                 },
                 x: {
