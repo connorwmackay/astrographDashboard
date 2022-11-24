@@ -76,7 +76,7 @@ router.post('/login', async(req, res) => {
     if (!isUserLoggedIn) {
         res.render('login', {wasLoginSuccessful: false, user: req.session.user});
     } else {
-        res.redirect(301, '/');
+        res.redirect('/');
     }
 });
 

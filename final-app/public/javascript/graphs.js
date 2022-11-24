@@ -430,6 +430,7 @@ function setupFullTimeEquivelentJobsCreatedGraph(data) {
 function setupPartTimeJobsCreatedGraph(data) {
     const registrationDates = getStringColumn(data, 'G', ["Registration Date"]);
     const partTimeJobsCreated = getNumberColumnFrom(data, 'AL', 5);
+    console.log("Num PT Jobs: " + partTimeJobsCreated.length);
     console.log(partTimeJobsCreated);
 
     let ptJobsPerYear = [];
@@ -464,6 +465,7 @@ function setupPartTimeJobsCreatedGraph(data) {
     let labels = [];
     let subdata = []
 
+    console.log("Num Pt Jobs: " + ptJobsPerYear.length)
     for (let i = 0; i < ptJobsPerYear.length; i++) {
         labels.push("0" + (ptJobsPerYear[i]["academicYear"]["start"].getMonth()+1 + "/" + ptJobsPerYear[i]["academicYear"]["start"].getFullYear()));
         subdata.push(
@@ -473,7 +475,7 @@ function setupPartTimeJobsCreatedGraph(data) {
 
     const graphData = {
         labels: labels, 
-        Datasets: [
+        datasets: [
             {
                 label: "Part Time Jobs Created",
                 data: subdata, 
@@ -570,13 +572,13 @@ function setupNumberCoFoundersGraph(data) {
     for (let i = 0; i < CFPerYear.length; i++) {
         labels.push("0" + (CFPerYear[i]["academicYear"]["start"].getMonth()+1 + "/" + CFPerYear[i]["academicYear"]["start"].getFullYear()));
         subdata.push(
-            CFPerYear[i]["partTimeJobs"]
+            CFPerYear[i]["CoFounders"]
         );
     }
 
     const graphData = {
         labels: labels, 
-        Datasets: [
+        datasets: [
             {
                 label: "Co-founders",
                 data: subdata, 
