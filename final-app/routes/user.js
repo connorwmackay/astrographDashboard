@@ -87,7 +87,47 @@ router.post('/logout', async(req, res) => {
 });
 
 router.get('/accountCreation', async(req, res) => {
-    res.render('accountCreation', {user: req.session.user});
+    res.render('accountCreation', {user: req.session.user, error: false, accountCreated: false});
+});
+
+router.post('/accountCreation', async(req, res) => {
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+
+    const username = req.body.username;
+    const email = req.body.email;
+    const password = req.body.psw;
+    const repeatPassword = req.body.psw_repeat;
+    const isAdmin = req.body.isAdmin;
+
+    if ((username != undefined && password != undefined && repeatPassword != undefined) &&
+        (password == repeatPassword)) {
+        try {
+            const db = getDatabase();
+
+            const userHashData = hashPassword(password);
+            const userInsertQuery = db.collection('users').insertOne(
+                {
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    username: username,
+                    passwordHash: userHashData.hash,
+                    passwordSalt: userHashData.salt,
+                    isAdmin: isAdmin
+                }
+            );
+
+            const userInsertResult = await userInsertQuery.then(result => {return result;});
+
+            res.render('accountCreation', {user: req.session.user, error: false, accountCreated: true});
+        } catch(err) {
+            console.error(err);
+            res.render('accountCreation', {user: req.session.user, error: true, accountCreated: false});
+        }
+    } else {
+        res.render('accountCreation', {user: req.session.user, error: true, accountCreated: false});
+    }
 });
 
 // Export the created router with all the specified routes

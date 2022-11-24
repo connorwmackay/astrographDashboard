@@ -8,7 +8,7 @@
 <body>
     <%- include('templates/navbar'); -%>
     <section id="content">
-        <form action="action_page.php" style="border:1px solid #ccc">
+        <form action="/accountCreation" method="POST" style="border:1px solid #ccc">
             <div class="container">
 
                 <h1>Account Creation Page</h1>
@@ -33,15 +33,22 @@
                 <input type="password" placeholder="Enter Password" name="psw" required>
 
                 <label for="psw-repeat"><b>Repeat Password</b></label>
-                <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+                <input type="password" placeholder="Repeat Password" name="psw_repeat" required>
+
+                <label for="isAdmin">Is Admin?</label>
+                <input type="checkbox" name="isAdmin" required>
 
                 <div class="clearfix">
                     <button type="button" class="cancelbtn">Cancel</button>
                     <button type="submit" class="signupbtn">Create</button>
                 </div>
-
             </div>
         </form>
+        <% if (accountCreated) { %>
+            <p>The account was successfully created.</p>
+        <% } else if (error) { %>
+            <p>An error occured when creating the account. Please try again.</p>
+        <% } %>
     </section>
     </main>
     <%- include('templates/body_js'); -%>

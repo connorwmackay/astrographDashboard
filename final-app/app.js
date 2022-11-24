@@ -80,6 +80,9 @@ const { hashPassword } = require('./routes/user.js');
 
 // Create the admin user based on the data provided in the .env file
 async function createAdminUser() {
+    const adminFirstname = process.env.ADMIN_FIRSTNAME;
+    const adminLastname = process.env.ADMIN_LASTNAME;
+    const adminEmail = process.env.ADMIN_EMAIL;
     const adminUsername = process.env.ADMIN_USERNAME;
     const adminPassword = process.env.ADMIN_PASSWORD;
 
@@ -92,6 +95,9 @@ async function createAdminUser() {
                 const adminHashData = hashPassword(adminPassword);
                 const adminInsertQuery = db.collection('users').insertOne(
                     {
+                        firstName: adminFirstname,
+                        lastName: adminLastname,
+                        email: adminEmail,
                         username: adminUsername,
                         passwordHash: adminHashData.hash,
                         passwordSalt: adminHashData.salt,
