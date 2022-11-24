@@ -37,9 +37,9 @@
         opacity: 1; /* Firefox */
         }
 
-        input[type=submit] {
-        color: white;
-        cursor: pointer;
+        #uploadSub {
+            color: white;
+            cursor: pointer;
         }  
     </style>
 </head>
@@ -53,7 +53,7 @@
                 <form action="/upload" method="POST" enctype="multipart/form-data">
                     <input class="form-control" type="file" id="myFile" name="csvFile">
                     <br>
-                    <input type="submit" class="btn" style="background-color:#955999;">
+                    <input type="submit" class="btn" id="uploadSub" style="background-color:#955999;">
                 </form>
             </div>
         </section>
@@ -67,6 +67,9 @@
                     <h1 style="color: #712177">File Upload Success</h1>
                 <% } else if (error) { %>
                     <p style="color: #712177"> Error! <%= fileName %> Upload unsuccessful. Please check file type.</p>
+                <% } else if (!isAdmin) { %>
+                    <br>
+                    <p style="color: #712177">You need to be an admin to upload a file.</p>
                 <% } %>
             </div>
         </section>

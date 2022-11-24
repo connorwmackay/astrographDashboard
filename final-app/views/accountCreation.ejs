@@ -47,6 +47,8 @@
             <h2 class="text-center">The account was successfully created.</h2>
         <% } else if (error) { %>
             <h2 class="text-center">An error occured when creating the account. Please try again.</h2>
+        <% } else if (!isAdmin) { %>
+            <h2 class="text-center">You need to be an admin to create an account.</h2>
         <% } %>
     </section>
     </main>

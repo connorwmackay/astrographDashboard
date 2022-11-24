@@ -27,7 +27,7 @@ var storage = multer.diskStorage({
 const upload = multer({storage: storage});
 
 router.get('/', async(req, res) => {
-    res.render('upload', {"uploaded": false, "user": req.session.user, "error": false, "fileName": "", user: req.session.user});
+    res.render('upload', {"uploaded": false, "user": req.session.user, "error": false, isAdmin: true, "fileName": "", user: req.session.user});
 });
 
 router.get('/read', async(req, res) => {
@@ -48,11 +48,28 @@ router.get('/read', async(req, res) => {
 });
 
 router.post('/', upload.single('csvFile'), async(req, res) => {
-    if (req.file.originalname.includes(".xlsx")) {
-        res.render('upload', {"uploaded": true, "user": req.session.user, "error": false, "fileName": req.file.originalname});
-    } else {
-        // TODO: Delete the upload.csv file on error
-        res.render('upload', {"uploaded": false, "user": req.session.user, "error": true, "fileName": req.file.originalname});
+    try {
+        const db = getDatabase();
+
+        const userFindQuery = db.collection('users').findOne({username: req.session.user.username});
+        const userResult = await userFindQuery.then(result => {return result;});
+
+        if (userResult != null) {
+            if (userResult.isAdmin) {
+                if (req.file.originalname.includes(".xlsx")) {
+                    res.render('upload', {"uploaded": true, "user": req.session.user, "error": false, isAdmin: true, "fileName": req.file.originalname});
+                } else {
+                    res.render('upload', {"uploaded": false, "user": req.session.user, "error": true, isAdmin: true, "fileName": req.file.originalname});
+                }
+            } else {
+                res.render('upload', {"uploaded": false, "user": req.session.user, "error": false, isAdmin: false, "fileName": ""});
+            }
+        } else {
+            res.render('upload', {"uploaded": false, "user": req.session.user, "error": false, isAdmin: true, "fileName": ""});
+        }
+    } catch(err) {
+        console.error(err);
+        res.render('upload', {"uploaded": false, "user": req.session.user, "error": false, isAdmin: true, "fileName": ""});
     }
 });
 

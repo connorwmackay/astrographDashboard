@@ -87,10 +87,11 @@ router.post('/logout', async(req, res) => {
 });
 
 router.get('/accountCreation', async(req, res) => {
-    res.render('accountCreation', {user: req.session.user, error: false, accountCreated: false});
+    res.render('accountCreation', {user: req.session.user, error: false, isAdmin: true, accountCreated: false});
 });
 
 router.post('/accountCreation', async(req, res) => {
+
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
 
@@ -100,40 +101,50 @@ router.post('/accountCreation', async(req, res) => {
     const repeatPassword = req.body.psw_repeat;
     const isAdmin = req.body.isAdmin;
 
-    if ((username != undefined && password != undefined && repeatPassword != undefined) &&
-        (password == repeatPassword)) {
-        try {
-            const db = getDatabase();
+    try {
+        const db = getDatabase();
 
-            const userFindQuery = db.collection('users').findOne({username: username});
-            const userResult = await userFindQuery.then(result => {return result;});
+        const userFindQuery = db.collection('users').findOne({username: req.session.user.username});
+        const userResult = await userFindQuery.then(result => {return result;});
 
-            if (userResult != null) {
-                res.render('accountCreation', {user: req.session.user, error: true, accountCreated: false});
+        if (userResult != null) {
+            if (userResult.isAdmin) {
+                if ((username != undefined && password != undefined && repeatPassword != undefined) &&
+                    (password == repeatPassword)) {
+
+                        const userFindQuery = db.collection('users').findOne({username: username});
+                        const userResult = await userFindQuery.then(result => {return result;});
+
+                        if (userResult != null) {
+                            res.render('accountCreation', {user: req.session.user, isAdmin: true, error: true, accountCreated: false});
+                        } else {
+                            const userHashData = hashPassword(password);
+                            const userInsertQuery = db.collection('users').insertOne(
+                                {
+                                    firstName: firstName,
+                                    lastName: lastName,
+                                    email: email,
+                                    username: username,
+                                    passwordHash: userHashData.hash,
+                                    passwordSalt: userHashData.salt,
+                                    isAdmin: isAdmin
+                                }
+                            );
+                
+                            const userInsertResult = await userInsertQuery.then(result => {return result;});
+                
+                            res.render('accountCreation', {user: req.session.user, isAdmin: true, error: false, accountCreated: true});
+                        }
+                } else {
+                    res.render('accountCreation', {user: req.session.user, error: true, isAdmin: true, accountCreated: false});
+                }
             } else {
-                const userHashData = hashPassword(password);
-                const userInsertQuery = db.collection('users').insertOne(
-                    {
-                        firstName: firstName,
-                        lastName: lastName,
-                        email: email,
-                        username: username,
-                        passwordHash: userHashData.hash,
-                        passwordSalt: userHashData.salt,
-                        isAdmin: isAdmin
-                    }
-                );
-    
-                const userInsertResult = await userInsertQuery.then(result => {return result;});
-    
-                res.render('accountCreation', {user: req.session.user, error: false, accountCreated: true});
+                res.render('accountCreation', {user: req.session.user, error: false, isAdmin: false, accountCreated: false});
             }
-        } catch(err) {
-            console.error(err);
-            res.render('accountCreation', {user: req.session.user, error: true, accountCreated: false});
-        }
-    } else {
-        res.render('accountCreation', {user: req.session.user, error: true, accountCreated: false});
+        } 
+    } catch(err) {
+        console.error(err);
+        res.render('accountCreation', {user: req.session.user, error: true, isAdmin: true, accountCreated: false});
     }
 });
 
