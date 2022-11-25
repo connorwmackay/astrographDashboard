@@ -104,11 +104,11 @@ router.post('/accountCreation', async(req, res) => {
     try {
         const db = getDatabase();
 
-        const userFindQuery = db.collection('users').findOne({username: req.session.user.username});
-        const userResult = await userFindQuery.then(result => {return result;});
+        const sessionFindQuery = db.collection('users').findOne({username: req.session.user.username});
+        const sessionResult = await userFindQuery.then(result => {return result;});
 
-        if (userResult != null) {
-            if (userResult.isAdmin) {
+        if (sessionResult != null) {
+            if (sessionResult.isAdmin) {
                 if ((username != undefined && password != undefined && repeatPassword != undefined) &&
                     (password == repeatPassword)) {
 

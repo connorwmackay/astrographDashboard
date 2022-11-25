@@ -33,7 +33,7 @@ router.get('/', async(req, res) => {
 router.get('/read', async(req, res) => {
     const filePath = 'uploads/upload.xlsx';
 
-    if (fs.existsSync(filePath)) {
+    if (fs.existsSync(filePath) && req.session.user) {
 
         const result = excelToJson({
             source: fs.readFileSync(filePath)
